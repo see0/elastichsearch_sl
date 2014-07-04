@@ -11,12 +11,12 @@ module ElasticsearchSl
       end
 
       def positive(&block)
-        (@value[:positive] ||= []) << Query.new(@data, &block).to_hash
+        @value[:positive] = Query.new(@data, &block).to_hash
         @value
       end
 
       def negative(&block)
-        (@value[:negative] ||= []) << Query.new(@data, &block).to_hash
+        @value[:negative] = Query.new(@data, &block).to_hash
         @value
       end
 

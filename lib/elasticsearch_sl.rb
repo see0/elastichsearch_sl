@@ -12,7 +12,10 @@ require "elasticsearch_sl/queries/filtered_query"
 require "elasticsearch_sl/queries/nested_query"
 require "elasticsearch_sl/queries/query"
 
-
+#filters
+require "elasticsearch_sl/filters/and_filter"
+require "elasticsearch_sl/filters/or_filter"
+require "elasticsearch_sl/filters/filter"
 
 #version
 require "elasticsearch_sl/version"
