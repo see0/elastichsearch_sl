@@ -13,20 +13,24 @@ module ElasticsearchSl
       def match(field, value, options = {})
         query_options = {:query => value}.merge(options)
         @value[:match] = {field => query_options}
+        @value
       end
 
       def match_phrase(field, value, options={})
         query_options = {:query => value}.merge(options)
         @value[:match_phrase] = {field => query_options}
+        @value
       end
 
       def match_phrase_prefix(field, value, options={})
         query_options = {:query => value}.merge(options)
         @value[:match_phrase_prefix] = {field => query_options}
+        @value
       end
 
       def multi_match(query, field=[], options={})
         @value[:multi_match] =  {query: query, fields: Array(field)}.merge(options)
+        @value
       end
 
       def boolean(options={}, &block)
@@ -45,6 +49,7 @@ module ElasticsearchSl
 
       def common(field, query, options={})
         @value[:common] = {field => {query: query}.merge(options)}
+        @value
       end
 
       def constant_score(&block)

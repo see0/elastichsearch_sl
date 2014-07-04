@@ -6,7 +6,7 @@ module ElasticsearchSl
     #
     class Filter
 
-      def initialize(type, *options)
+      def initialize(data, type, *options)
         value = if options.size < 2
           options.first || {}
         else
@@ -15,11 +15,13 @@ module ElasticsearchSl
         @hash = { type => value }
       end
 
+      #create helper
+
       def boolean(options={}, &block)
-        @boolean ||= ElasticsearchSl::Shared::Boolean.new(ElasticsearchSl::Queries::Filter, options)
+        @boolean ||= ElasticsearchSl::Shared::Boolean.new(ElasticsearchSl::Queries::Filter, @data, options)
         block.arity < 1 ? @boolean.instance_eval(&block) : block.call(@boolean) if block_given?
-        # @value[:bool] = @boolean.to_hash
-        # @value
+        @hash[:bool] = @boolean.to_hash
+        @hash
       end
 
 

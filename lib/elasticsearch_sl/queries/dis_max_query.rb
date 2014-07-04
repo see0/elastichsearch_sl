@@ -13,7 +13,7 @@ module ElasticsearchSl
       end
 
       def query(&block)
-        (@value[:queries] ||= []) << Query.new(&block).to_hash
+        (@value[:queries] ||= []) << Query.new(@data, &block).to_hash
         @value
       end
 

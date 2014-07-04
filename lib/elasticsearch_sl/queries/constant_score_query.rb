@@ -19,7 +19,7 @@ module ElasticsearchSl
       end
 
       def query(&block)
-        @value.update(:query => Query.new(&block).to_hash)
+        @value.update(:query => Query.new(@data, &block).to_hash)
       end
 
       def boost(boost)
