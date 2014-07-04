@@ -22,6 +22,12 @@ module ElasticsearchSl
         @value = @or_filter.to_hash
       end
 
+      def not_filter(options={}, &block)
+        @not_filter ||= OrFilter.new(@data, options)
+        block.arity < 1 ? @not_filter.instance_eval(&block) : block.call(@not_filter) if block_given?
+        @value = @not_filter.to_hash
+      end
+
       def exists(field)
         @value = {exists: {field: field}}
       end
@@ -35,7 +41,7 @@ module ElasticsearchSl
         @value = {geo_distance: {distance: options.delelete(:distance), field => query}}
       end
 
-      def term(field , value, options={})
+      def term(field, value, options={})
         @value = {term: {field => value}}.update(options)
       end
 
