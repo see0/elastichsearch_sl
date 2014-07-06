@@ -44,22 +44,4 @@ describe 'QueryBuilder Sanity Test' do
   # end
 
 
-  # aggs/aggregations do
-  #
-  #   block/b('love me') do
-  #     term 'cool' 'love'
-  #
-  #     aggs do
-  #       block('whatever love') do
-  #         term 'cool' 'love'
-  #       end
-  #     end
-  #   end
-  #
-  #   block/b('stats') do
-  #       stats 'grade'
-  #   end
-  #
-  # end
-
 end

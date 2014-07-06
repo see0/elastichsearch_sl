@@ -285,5 +285,26 @@ describe ElasticsearchSl::Queries::Query do
     end
   end
 
+  context 'function score' do
+    it 'generate correct es syntax' do
+      result = with_para.instance_eval do
+        function_score do
+          query do
+            terms 'foo', [data[:bar] , 1], minimum_should_match: 1
+          end
+
+          function do
+            filter { terms data[:bar] , 'lol' }
+            gauss 'foo' , scale: 2
+          end
+
+          boost 123
+        end
+      end
+
+      expect(result.to_hash).to eq({:function_score=>{:query=>{:terms=>{"foo"=>["foobar", 1], :minimum_should_match=>1}}, :functions=>[{:filter=>{:terms=>{"foobar"=>["lol"]}}, :gauss=>{"foo"=>{:scale=>2}}}], :boost=>123}})
+    end
+  end
+
 
 end

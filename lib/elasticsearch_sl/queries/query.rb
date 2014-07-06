@@ -77,7 +77,12 @@ module ElasticsearchSl
         @value = {:fuzzy_like_this_field => query}
       end
 
-      #TODO: Function score query
+      def function_score(&block)
+        @fs = FunctionScoreQuery.new(@data)
+        block.arity < 1 ?  @fs.instance_eval(&block) : block.call(@fs) if block_given?
+        @value[:function_score] = @fs.to_hash
+        @value
+      end
 
       def fuzzy(field, value, options={})
         query = {field => {:value => value}.update(options)}

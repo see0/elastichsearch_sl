@@ -2,17 +2,7 @@ module ElasticsearchSl
   module Shared
     class Boolean
 
-      # TODO: Try to get rid of multiple `should`, `must`, etc invocations, and wrap queries directly:
-      #
-      #       boolean do
-      #         should do
-      #           string 'foo'
-      #           string 'bar'
-      #         end
-      #       end
-      #
-      # Inherit from Query, implement `encode` method there, and overload it here, so it puts
-      # queries in an Array instead of hash.
+      attr_reader :data
 
       def initialize(type, data= nil, options={}, &block)
         @data = data
