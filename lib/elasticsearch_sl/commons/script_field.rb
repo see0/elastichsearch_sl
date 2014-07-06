@@ -1,9 +1,5 @@
 module ElasticsearchSl
-  module Search
-
-    # http://www.elasticsearch.org/guide/reference/api/search/script-fields.html
-    # http://www.elasticsearch.org/guide/reference/modules/scripting.html
-
+  module Commons
     class ScriptField
 
       def initialize(name, options)

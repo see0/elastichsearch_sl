@@ -1,6 +1,10 @@
 #dependencies
 require 'json'
 
+#common
+require 'elasticsearch_sl/commons/script_field'
+require 'elasticsearch_sl/commons/sort'
+
 #builders
 require "elasticsearch_sl/query_builder"
 

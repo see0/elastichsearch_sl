@@ -16,30 +16,38 @@ module ElasticsearchSl
       self
     end
 
-    #
-    # def sort(&block)
-    #   @sort = Sort.new(&block).to_ary
-    #   self
-    # end
-    #
-    # def facet(name, options={}, &block)
-    #   @facets ||= {}
-    #   @facets.update Facet.new(name, options, &block).to_hash
-    #   self
-    # end
-    #
-    # def filter(type, *options)
-    #   @filters ||= []
-    #   @filters << Filter.new(type, *options).to_hash
-    #   self
-    # end
-    #
-    # def script_field(name, options={})
-    #   @script_fields ||= {}
-    #   @script_fields.merge! ScriptField.new(name, options).to_hash
-    #   self
-    # end
-    #
+
+    def aggs(&block)
+      @aggs = Aggs::Agg.new(@data)
+      block.arity < 1 ? @aggs.instance_eval(&block) : block.call(@aggs)
+      self
+    end
+
+    def filter(&block)
+      @filter = Filters::Filter.new(@data)
+      block.arity < 1 ? @filter.instance_eval(&block) : block.call(@filter)
+      self
+    end
+
+
+    def sort(&block)
+      @sort ||= Commons::Sort.new(&block)
+      @options[:sort] = @sort.to_ary
+      self
+    end
+
+    def script_field(name, options={})
+      sf ||= {}
+      sf.merge! Commons::ScriptField.new(name, options).to_hash
+      @options[:script_fields] = sf
+      self
+    end
+
+    def source_filtering(options = {})
+      @options[:_source] = options
+      self
+    end
+
     # def highlight(*args)
     #   unless args.empty?
     #     @highlight = Highlight.new(*args)
@@ -49,28 +57,23 @@ module ElasticsearchSl
     #   end
     # end
     #
-    # def from(value)
-    #   @from = value
-    #   @options[:from] = value
-    #   self
-    # end
-    #
-    # def size(value)
-    #   @size = value
-    #   @options[:size] = value
-    #   self
-    # end
-    #
-    # def fields(*fields)
-    #   @fields = Array(fields.flatten)
-    #   self
-    # end
-    #
-    # def partial_field(name, options)
-    #   @partial_fields ||= {}
-    #   @partial_fields[name] = options
-    # end
-    #
+    def from(value)
+      @from = value
+      @options[:from] = value
+      self
+    end
+
+    def size(value)
+      @size = value
+      @options[:size] = value
+      self
+    end
+
+    def fields(*fields)
+      @options[:fields] = Array(fields.flatten)
+      self
+    end
+
     # def explain(value)
     #   @explain = value
     #   self
@@ -92,31 +95,19 @@ module ElasticsearchSl
     # end
 
     def to_hash
-      @options[:payload] || begin
-        request = {}
+        request = @options
         request.update({:query => @query.to_hash}) if @query
-        # request.update({:sort => @sort.to_ary}) if @sort
-        # request.update({:facets => @facets.to_hash}) if @facets
-        # request.update({:filter => @filters.first.to_hash}) if @filters && @filters.size == 1
-        # request.update({:filter => {:and => @filters.map { |filter| filter.to_hash }}}) if  @filters && @filters.size > 1
-        # request.update({:highlight => @highlight.to_hash}) if @highlight
-        # request.update({:size => @size}) if @size
-        # request.update({:from => @from}) if @from
-        # request.update({:fields => @fields}) if @fields
-        # request.update({:partial_fields => @partial_fields}) if @partial_fields
-        # request.update({:script_fields => @script_fields}) if @script_fields
-        # request.update({:version => @version}) if @version
-        # request.update({:explain => @explain}) if @explain
-        # request.update({:min_score => @min_score}) if @min_score
-        # request.update({:track_scores => @track_scores}) if @track_scores
+        request.update({:aggs => @aggs.to_hash}) if @aggs
+        request.update({:filter => @filter.to_hash}) if @filter
         request
-      end
     end
 
     def to_json
       to_hash.to_json
     end
 
+
+    alias :aggregations :aggs
   end
 
 end

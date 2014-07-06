@@ -1,6 +1,5 @@
 module ElasticsearchSl
-  module Search
-
+  module Commons
     class Sort
       def initialize(&block)
         @value = []
