@@ -15,4 +15,51 @@ describe 'QueryBuilder Sanity Test' do
     expect(result.to_hash).to eq({query: {bool:{ should: [ {match:{first_name: {query: 'honda'}}} , {match:{first_name: {query: 'honda2'}}}] }}})
   end
 
+  #
+  # it 'test' do
+  #   query do
+  #     function_score do
+  #
+  #       filter/query do
+  #
+  #       end
+  #
+  #       function do
+  #         filter
+  #         script_score/boost_factor/gauss/exp/linear
+  #       end
+  #
+  #       function do
+  #         filter {
+  #         }
+  #         script_score/boost_factor/gauss/exp/linear
+  #       end
+  #
+  #       max_boost
+  #       score_mode
+  #       boost 2
+  #       boost_mode 'awa'
+  #     end
+  #   end
+  # end
+
+
+  # aggs/aggregations do
+  #
+  #   block/b('love me') do
+  #     term 'cool' 'love'
+  #
+  #     aggs do
+  #       block('whatever love') do
+  #         term 'cool' 'love'
+  #       end
+  #     end
+  #   end
+  #
+  #   block/b('stats') do
+  #       stats 'grade'
+  #   end
+  #
+  # end
+
 end

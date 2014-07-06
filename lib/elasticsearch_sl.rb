@@ -1,3 +1,6 @@
+#dependencies
+require 'json'
+
 #builders
 require "elasticsearch_sl/query_builder"
 
@@ -16,6 +19,9 @@ require "elasticsearch_sl/queries/query"
 require "elasticsearch_sl/filters/and_filter"
 require "elasticsearch_sl/filters/or_filter"
 require "elasticsearch_sl/filters/filter"
+
+#aggs
+require "elasticsearch_sl/aggs/agg"
 
 #version
 require "elasticsearch_sl/version"
