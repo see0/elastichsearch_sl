@@ -16,6 +16,15 @@ module ElasticsearchSl
         @value
       end
 
+      def method_missing(method_name, *args, &block)
+        @value = {not: {filter: {}}}
+        @value[:not][:filter] = Filter.new(@data, &block).send(method_name.to_sym, *args).to_hash
+        @value
+      rescue
+        super
+      end
+
+
       def to_hash
         @value.update(@options)
       end

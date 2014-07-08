@@ -32,5 +32,16 @@ describe ElasticsearchSl::Filters::Filter do
       expect(result.to_hash).to eq(:and=>[{:exists=>{:field=>"cool"}}])
     end
 
+    it 'generate correct es syntax' do
+      result = with_para.instance_eval do
+        and_filter do
+           term 'cool', 'love'
+        end
+      end
+
+      expect(result.to_hash).to eq({:and=>[{:term=>{"cool"=>"love"}}]})
+    end
+
+
   end
 end
