@@ -25,7 +25,7 @@ module ElasticsearchSl
         @value
       end
 
-      def stats(name, field, options={})
+      def stats(field, options={})
         @value = {stats: {field: field}}.merge(options)
       end
 
