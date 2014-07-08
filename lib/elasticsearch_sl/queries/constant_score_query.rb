@@ -11,10 +11,8 @@ module ElasticsearchSl
         block.arity < 1 ? self.instance_eval(&block) : block.call(self) if block_given?
       end
 
-      def filter(type, *options)
-        @value[:filter] ||= {}
-        @value[:filter][:and] ||= []
-        @value[:filter][:and] << ElasticsearchSl::Filters::Filter.new(type, *options).to_hash
+      def filter(&block)
+        @value[:filter] = Filter.new(@data, &block).to_hash
         @value
       end
 
