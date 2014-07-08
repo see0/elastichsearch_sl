@@ -26,7 +26,7 @@ module ElasticsearchSl
       end
 
       def stats(name, field, options={})
-        @value = {name => {stats: {field: field}}.merge(options)}
+        @value = {stats: {field: field}}.merge(options)
       end
 
       def terms(field, options={})
