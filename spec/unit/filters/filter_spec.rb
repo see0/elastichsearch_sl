@@ -20,6 +20,17 @@ describe ElasticsearchSl::Filters::Filter do
     end
   end
 
+  context 'geo_distance' do
+    it 'generate correct es syntax' do
+      result = with_para.instance_eval do
+        geo_distance 'cool', distance: '100mi', lat: 123 , lon: 123
+      end
+
+      expect(result.to_hash).to eq({:geo_distance=>{:distance=>"100mi", "cool"=>{:lat=>123, :lon=>123}}})
+    end
+  end
+
+
   context 'and' do
 
     it 'generate correct es syntax' do
@@ -35,11 +46,11 @@ describe ElasticsearchSl::Filters::Filter do
     it 'generate correct es syntax' do
       result = with_para.instance_eval do
         and_filter do
-           term 'cool', 'love'
+          geo_distance 'cool', distance: '100mi', lat: 123 , lon: 123
         end
       end
 
-      expect(result.to_hash).to eq({:and=>[{:term=>{"cool"=>"love"}}]})
+      expect(result.to_hash).to eq({:and=>[{:geo_distance=>{:distance=>"100mi", "cool"=>{:lat=>123, :lon=>123}}}]})
     end
 
 

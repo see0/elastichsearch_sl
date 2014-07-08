@@ -35,10 +35,10 @@ module ElasticsearchSl
       #todo: geo bounding box filter
 
       def geo_distance(field, options={})
-        query = {lat: options.delelete(:lat), lon: options.delelete(:lon)} if options.is_a?(Hash) && options[:lat].any? && options[:lon].any?
+        query = {lat: options.delete(:lat), lon: options.delete(:lon)} if options.is_a?(Hash) && options[:lat] && options[:lon]
         query = options if options.is_a?(String)
 
-        @value = {geo_distance: {distance: options.delelete(:distance), field => query}}
+        @value = {geo_distance: {distance: options.delete(:distance), field => query}}
       end
 
       def term(field, value, options={})
