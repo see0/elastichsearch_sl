@@ -17,7 +17,7 @@ module ElasticsearchSl
       end
 
       def filter(&block)
-        @value[:filter] = Filter.new(@data, &block).to_hash
+        @value[:filter] = ElasticsearchSl::Filters::Filter.new(@data, &block).to_hash
         @value
       end
 
